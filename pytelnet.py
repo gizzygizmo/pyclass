@@ -5,6 +5,9 @@ import telnetlib
 TELNET_PORT = 23
 TELNET_TIMEOUT = 6
 
+import socket
+import sys
+
 def cmd(remote_conn, cmd):
    cmd = cmd.rstrip() # strip off whitespace
    remote_conn.write(cmd+"\n")
@@ -19,12 +22,18 @@ def tlogin(remote_conn, username, password):
    time.sleep(1)
    cmd(remote_conn, "term len 0")
 
+def telnet_connect(ipaddr):
+   try:
+      return telnetlib.Telnet(ipaddr, TELNET_PORT, TELNET_TIMEOUT)
+   except socket.timeout:
+      sys.exit("Unable to form connection to "+ipaddr)
+
 def main():
    username = 'pyclass';
    password = '88newclass'
    ipaddr = '50.76.53.27'
 
-   remote_conn = telnetlib.Telnet(ipaddr, TELNET_PORT, TELNET_TIMEOUT)
+   remote_conn = telnet_connect(ipaddr); 
    tlogin(remote_conn, username, password)
    
    print  cmd(remote_conn, "show version")
