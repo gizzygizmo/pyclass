@@ -36,7 +36,7 @@ def main():
    remote_conn = telnet_connect(ipaddr); 
    tlogin(remote_conn, username, password)
    
-   print  cmd(remote_conn, "show version")
+   print  cmd(remote_conn, "show ip int br")
 
    remote_conn.close
 
